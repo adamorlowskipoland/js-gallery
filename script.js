@@ -45,8 +45,10 @@ const operator = {
             indicatorLi.appendChild(indicatorPic);
             indicatorsList.appendChild(indicatorLi);
         };
+        var firstPic = indicatorsList.firstElementChild;
+        firstPic.classList.add('active');
     },
-    
+
 }
 
 const view = {
