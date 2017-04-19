@@ -24,9 +24,36 @@ const model = {
 }
 
 const operator = {
+    "setMainImg" : function() {
+        const wrapper = document.getElementById('wrapper');
+        const pic = document.createElement('img');
+        pic.id = 'pic';
+        pic.setAttribute('src', model.pics[0].imgSrc);
+        pic.setAttribute('alt', model.pics[0].imgAlt);
+        wrapper.appendChild(pic);
+    },
+    "setIndicators" : function() {
+        const indicatorsList = document.getElementById('indicators-list');
+        for (var pic in model.pics) {
+            var indicatorLi = document.createElement('li');
+            indicatorLi.className = 'indicator';
 
+            var indicatorPic = document.createElement('img');
+            indicatorPic.setAttribute('src', model.pics[pic].imgSrc);
+            indicatorPic.setAttribute('alt', model.pics[pic].imgAlt);
+
+            indicatorLi.appendChild(indicatorPic);
+            indicatorsList.appendChild(indicatorLi);
+        };
+    },
+    
 }
 
 const view = {
-    
+    "initDisplay" : function() {
+        operator.setMainImg();
+        operator.setIndicators();
+    }
 }
+
+view.initDisplay();
