@@ -12,7 +12,7 @@ body {
     background: url("imgs/bgpic.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
     position: relative;
 }
@@ -54,7 +54,7 @@ img {
 }
 
 .indicators-wrapper {
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
 }
 .list {

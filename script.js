@@ -25,13 +25,14 @@ const model = {
 
 const operator = {
     "currentImgIndex" : 0,
+    "modelPicsLengthMinusOne" : (model.pics.length - 1),
 
     "createMainImg" : function() {
         const wrapper = document.getElementById('wrapper');
         const pic = document.createElement('img');
         pic.id = 'pic';
         wrapper.appendChild(pic);
-        operator.setMainImg(operator.currentImgIndex);
+        this.setMainImg(this.currentImgIndex);
     },
     "setMainImg" : function(x) {
         var pic = document.getElementById('pic');
@@ -40,14 +41,14 @@ const operator = {
     },
     "changeMainImg" : function(x) {
         if (x < 0) {
-            operator.currentImgIndex = (model.pics.length - 1);
-            operator.setMainImg(operator.currentImgIndex);
+            this.currentImgIndex = (model.pics.length - 1);
+            this.setMainImg(this.currentImgIndex);
         } else if (x === model.pics.length) {
-            operator.currentImgIndex = 0;
-            operator.setMainImg(operator.currentImgIndex);
+            this.currentImgIndex = 0;
+            this.setMainImg(this.currentImgIndex);
         } else {
-            operator.currentImgIndex = x;
-            operator.setMainImg(operator.currentImgIndex);
+            this.currentImgIndex = x;
+            this.setMainImg(this.currentImgIndex);
         };
     },
     "setIndicators" : function() {
@@ -66,17 +67,31 @@ const operator = {
         var firstPic = indicatorsList.firstElementChild;
         firstPic.classList.add('active');
     },
+    "activeIndicator" : function(x) {
+        x = this.currentImgIndex;
+        const indicators = document.querySelectorAll('.indicator');
+        indicators.forEach(function(indicator) {
+            indicator.classList.remove('active');
+        }, this);
+        var currentIndicator = indicators[x];
+        currentIndicator.classList.add('active');
+    },
     "eventListeners" : function() {
         const previous = document.getElementById('previous');
         const next = document.getElementById('next');
         previous.addEventListener('click', function() {
             operator.currentImgIndex--;
-            operator.changeMainImg(operator.currentImgIndex);
+            view.renderDisplay(operator.currentImgIndex);
         });
         next.addEventListener('click', function() {
             operator.currentImgIndex++;
-            operator.changeMainImg(operator.currentImgIndex);
+            view.renderDisplay(operator.currentImgIndex);
         });
+        const indicators = Array.from(document.getElementsByClassName('indicator'));
+        indicators.forEach(indicator => indicator.addEventListener('click', function() {
+            operator.currentImgIndex = indicators.indexOf(this);
+            view.renderDisplay(operator.currentImgIndex);
+        }));
     }
 }
 
@@ -85,6 +100,10 @@ const view = {
         operator.createMainImg();
         operator.setIndicators();
         operator.eventListeners();
+    },
+    "renderDisplay" : function(x) {
+        operator.changeMainImg(x);
+        operator.activeIndicator(x);
     }
 }
 
