@@ -24,13 +24,31 @@ const model = {
 }
 
 const operator = {
-    "setMainImg" : function() {
+    "currentImgIndex" : 0,
+
+    "createMainImg" : function() {
         const wrapper = document.getElementById('wrapper');
         const pic = document.createElement('img');
         pic.id = 'pic';
-        pic.setAttribute('src', model.pics[0].imgSrc);
-        pic.setAttribute('alt', model.pics[0].imgAlt);
         wrapper.appendChild(pic);
+        operator.setMainImg(operator.currentImgIndex);
+    },
+    "setMainImg" : function(x) {
+        var pic = document.getElementById('pic');
+        pic.setAttribute('src', model.pics[x].imgSrc);
+        pic.setAttribute('alt', model.pics[x].imgAlt);
+    },
+    "changeMainImg" : function(x) {
+        if (x < 0) {
+            operator.currentImgIndex = (model.pics.length - 1);
+            operator.setMainImg(operator.currentImgIndex);
+        } else if (x === model.pics.length) {
+            operator.currentImgIndex = 0;
+            operator.setMainImg(operator.currentImgIndex);
+        } else {
+            operator.currentImgIndex = x;
+            operator.setMainImg(operator.currentImgIndex);
+        };
     },
     "setIndicators" : function() {
         const indicatorsList = document.getElementById('indicators-list');
@@ -48,13 +66,25 @@ const operator = {
         var firstPic = indicatorsList.firstElementChild;
         firstPic.classList.add('active');
     },
-
+    "eventListeners" : function() {
+        const previous = document.getElementById('previous');
+        const next = document.getElementById('next');
+        previous.addEventListener('click', function() {
+            operator.currentImgIndex--;
+            operator.changeMainImg(operator.currentImgIndex);
+        });
+        next.addEventListener('click', function() {
+            operator.currentImgIndex++;
+            operator.changeMainImg(operator.currentImgIndex);
+        });
+    }
 }
 
 const view = {
     "initDisplay" : function() {
-        operator.setMainImg();
+        operator.createMainImg();
         operator.setIndicators();
+        operator.eventListeners();
     }
 }
 
