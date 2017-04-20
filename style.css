@@ -68,6 +68,7 @@ img {
 .indicator {
     flex: 1;
     opacity: .7;
+    transition: 500ms;
 }
 .indicator:hover {
     cursor: pointer;
